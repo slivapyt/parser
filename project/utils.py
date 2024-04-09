@@ -21,6 +21,8 @@ class Superjob(JobPlatform):
         js_response = response.json()["objects"]
         return js_response
 
+
+
     def create_params_vacancy(self):
         vacancy_list = []
         vacancies = self.get_value_vacancies()
