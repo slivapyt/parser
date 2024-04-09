@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-
+import requests
 
 class JobPlatform(ABC):
 
-    @abstractmethod
-    def get_request(self):
-        pass
+    # @abstractmethod
+    # def get_request(self):
+    #     pass
 
     @abstractmethod
     def create_params_vacancy(self):
@@ -30,13 +30,21 @@ class JobPlatform(ABC):
         return payment
 
 
-    def get_value_vacancies(self, pages_count=1, params,):
-        while self.__params["page"] < pages_count:
+    def get_value_vacancies(self, params,req_values,vacancies, pages_count = 1):
+        while params["page"] < pages_count:
             try:
-                values = self.get_request()
+                values = req_values
             except Exception:
                 print("ошибка при парсинге")
                 break
-            self.__vacancies.extend(values)
-            self.__params["page"] += 1
-        return self.__vacancies
+            vacancies.extend(values)
+            params["page"] += 1
+        return vacancies
+    
+
+    def get_request(self, link, header, params, title_val):
+        response = requests.get(link, 
+                                headers = header,
+                                params = params)
+        js_response = response.json()[title_val]
+        return js_response
