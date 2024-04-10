@@ -3,10 +3,6 @@ import requests
 
 class JobPlatform(ABC):
 
-    # @abstractmethod
-    # def get_request(self):
-    #     pass
-
     @abstractmethod
     def create_params_vacancy(self):
         pass
