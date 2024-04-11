@@ -302,19 +302,19 @@ class HeadHunter(JobPlatform):
 
 
 
-teta = HeadHunter("слесарь")
-# print(repr(teta))
+request_HeadHunter = HeadHunter("слесарь")
+# print(repr(request_HeadHunter))
 
-# sss = teta.create_params_vacancy()
-# for i in sss:
+# HeadHunter = request_HeadHunter.create_params_vacancy()
+# for i in HeadHunter:
 #     print(i)
 
 
-teta1 = Superjob("хирург")
-print(repr(teta1))
+request_Superjob = Superjob("хирург")
+print(repr(request_Superjob))
 
-# ss = teta1.create_params_vacancy()
-# for i in test_ss:
+# Superjob = request_Superjob.create_params_vacancy()
+# for i in Superjob:
 #     print(i)
 
 # print(json.dumps(i, indent=4,ensure_ascii=False))
