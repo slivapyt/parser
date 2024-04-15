@@ -1,6 +1,6 @@
 from abstract import JobPlatform
 #import json
-
+import re
 class Superjob(JobPlatform):
 
     def __init__(self, keyword):
@@ -56,7 +56,7 @@ class Superjob(JobPlatform):
             
             payment = self.format_payment(payment_to, payment_from)
 
-            if payment is "зп не указанна":
+            if payment == "зп не указанна":
                 payment_ful = "зп не указанна"
             else:
                 payment_ful = f'{payment} {currency}'
@@ -201,7 +201,11 @@ class HeadHunter(JobPlatform):
                 payment_from = ""
             
             payment = self.format_payment(payment_to, payment_from)
-            payment_ful = f'{payment} {currency}'
+
+            if payment == "зп не указанна":
+                payment_ful = "зп не указанна"
+            else:
+                payment_ful = f'{payment} {currency}'
             
             """-----------------------Адрес-----------------------------------"""
             """Адрес: улица"""
@@ -302,19 +306,123 @@ class HeadHunter(JobPlatform):
 
 
 
-request_HeadHunter = HeadHunter("слесарь")
-# print(repr(request_HeadHunter))
+class Main():
 
-# HeadHunter = request_HeadHunter.create_params_vacancy()
+  @staticmethod
+  def processing_request(platform, vacancy):
+    if platform == "1":
+      super_jpb = Superjob(vacancy)
+      super_jpb_vacancy = super_jpb.create_params_vacancy()
+      return super_jpb_vacancy
+
+    elif platform == "2":
+      head_hunter = HeadHunter(vacancy)
+      head_hunter_vacancy = head_hunter.create_params_vacancy()
+      return head_hunter_vacancy
+
+    elif platform == "3":
+      super_jpb = Superjob(vacancy)
+      super_jpb_vacancy = super_jpb.create_params_vacancy()
+
+      head_hunter = HeadHunter(vacancy)
+      head_hunter_vacancy = head_hunter.create_params_vacancy()
+      
+      all_platform_vacancy = super_jpb_vacancy + head_hunter_vacancy
+      return all_platform_vacancy
+    
+    else:
+      print("некорректный ввод")
+
+
+  @staticmethod
+  def output(vacancy_list):
+
+    return (f'''-----------------------------------------------------\n
+Вакансия - {vacancy_list["profession"]}\n
+-----------------------------------------------------\n
+Оплата - {vacancy_list["payment"]}\n
+-----------------------------------------------------\n
+Ссылка на вакансию - {vacancy_list["link"]}\n
+-----------------------------------------------------\n
+Адрес - {vacancy_list["address"]}\n
+-----------------------------------------------------\n
+Город - {vacancy_list["town"]}\n
+-----------------------------------------------------\n
+Расписание - {vacancy_list["schedule"]}\n
+-----------------------------------------------------\n
+Требования - {vacancy_list["requirement"]}\n
+-----------------------------------------------------\n
+Обязанности - {vacancy_list["responsibility"]}\n
+''')
+  
+  
+  @staticmethod
+  def get_top(list_vacancy):
+   new_list = sorted(list_vacancy, key= lambda x: re.findall(r'\d+', x["payment"]), reverse=True)
+   top_10_payments = new_list[:10]
+   return top_10_payments
+  
+
+  @staticmethod
+  def navigation(count, page):
+    if count == ">":
+      page += 1
+
+    elif count == "<":
+      page -= 1
+
+    elif count == "":
+      page = 0
+    
+    else:
+      try:
+        page = int(count) -1 
+      except:
+          pass  
+    return page
+  
+
+  def del_request(self):
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# request_headhunter = HeadHunter("слесарь")
+# params = request_headhunter.create_params_vacancy()
+# request_headhunter.json_dump(params)
+# print(repr(request_headhunter))
+
+# HeadHunter = request_headhunter.create_params_vacancy()
 # for i in HeadHunter:
 #     print(i)
 
 
-request_Superjob = Superjob("хирург")
-print(repr(request_Superjob))
+# request_superjob = Superjob("хирург")
+# params = request_superjob.create_params_vacancy()
+# request_superjob.json_dump(params)
+#print(repr(request_Superjob))
 
-# Superjob = request_Superjob.create_params_vacancy()
-# for i in Superjob:
+#print(request_superjob)
+# superjob = request_superjob.create_params_vacancy()
+# for i in superjob:
 #     print(i)
 
 # print(json.dumps(i, indent=4,ensure_ascii=False))

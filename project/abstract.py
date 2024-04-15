@@ -7,10 +7,6 @@ class JobPlatform(ABC):
     def create_params_vacancy(self):
         pass
 
-    @abstractmethod
-    def get_value_vacancies(self):
-        pass
-
 
     def format_payment(self, payment_to, payment_from):
         if not payment_to and not payment_from:
