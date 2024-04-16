@@ -1,5 +1,4 @@
 from abstract import JobPlatform
-#import json
 import re
 class Superjob(JobPlatform):
 
@@ -381,6 +380,17 @@ class Main():
           pass  
     return page
   
+  @staticmethod
+  def filter(vacancy_list, key):
+      filtered_list = []
+      for i in vacancy_list:
+          if key in i["requirement"] or key in i["responsibility"]:
+              filtered_list.append(i)
+      return filtered_list
+              
+      
+      
+      
 
   def del_request(self):
     pass

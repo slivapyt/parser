@@ -13,7 +13,7 @@ vacancy_list = check.processing_request(platform, vacancy)
 
 default_list = check.processing_request(platform, vacancy)
 top_list = check.get_top(vacancy_list)
-
+filtered_vacancy = None
 
 edit_json = EditJson()
 
@@ -28,7 +28,12 @@ while True:
     except IndexError:
       page = 0
       continue
-    print(f"станица № {page+1} из {len(vacancy_list)}\n (<), (>), num page, exit(X), save(S), clear favorites(clr),")
+    print(f"""|________________Станица № {page+1} из {len(vacancy_list)}___________________________________________________________|
+          \n|________________(<) (>)page number()_________________________________________________________|
+          \n|________________open fav(fav),save to fav(S), del to fav(d) clear all fav(clr)_______________|
+          \n|________________top ten payment(top), exit(X)________________________________________________|""")
+    if vacancy_list == filtered_vacancy:
+      print(f"поиск по слову {key}")
     if vacancy_list == top_list:
       print("топ")
 
@@ -56,7 +61,7 @@ while True:
 
 
     #удаление элемента
-    elif count.lower() == "del":
+    elif count.lower() == "d":
       if vacancy_list == favorites:
         edit_json.del_vacancy(page)
         vacancy_list = edit_json.favorites_read()
@@ -77,6 +82,12 @@ while True:
         vacancy_list = default_list
         page = 0
 
+    #фильтр
+    elif count.lower() == "fil":
+      key = input("поиск по ключевым словам")
+      filtered_vacancy = check.filter(vacancy_list, key)
+      vacancy_list = filtered_vacancy
+      page = 0
 
 
     #избранное

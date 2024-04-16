@@ -2,8 +2,6 @@ import json
 
 class EditJson():
   
-
-
   @staticmethod
   def json_dump(params):
       try:
@@ -17,8 +15,6 @@ class EditJson():
       
       with open("parser/project/library.json", 'w',encoding="utf-8") as file:
           json.dump(existing_data, file, ensure_ascii=False, indent=4)
-
-
 
 
   @staticmethod
@@ -36,6 +32,7 @@ class EditJson():
     with open("parser/project/library.json", "w", encoding="utf-8") as file:
         file.truncate(0)
 
+
   @staticmethod
   def del_vacancy(ind):
     with open("parser/project/library.json", "r", encoding="utf-8") as file:
@@ -44,7 +41,7 @@ class EditJson():
           del data[ind]
           with open("parser/project/library.json","w", encoding="utf-8") as file:
              json.dump(data, file, ensure_ascii=False, indent=4)
-    with open("parser/project/library.json", "r", encoding="utf-8") as file:
-        data = json.load(file)
-        return data
+    # with open("parser/project/library.json", "r", encoding="utf-8") as file:
+    #     data = json.load(file)
+    #     return data
 
